@@ -1,0 +1,66 @@
+digraph G {
+  # Arrows represent an "unlocks" relationship (opposite of dependency). So chosen
+  # because the layout looks more natural that way.
+  # To represent subgraph dependencies, subgraphs are represented by BEGIN/END nodes.
+  # To render: `dot -Tsvg awscodepipelinestackpipelineB0B7F0A8.dot > graph.svg`, open in a browser.
+  node [shape="box"];
+"BEGIN Build" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Build" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Build.Synth";
+"Source.aws-6w8hnx/aws-codepipeline-ecs-lambda" -> "Build.Synth";
+"BEGIN Build" -> "Build.Synth";
+"Build.Synth" -> "END Build";
+"BEGIN UpdatePipeline" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END UpdatePipeline" [shape="cds", style="filled", fillcolor="#b7deff"];
+"UpdatePipeline.SelfMutate";
+"Build.Synth" -> "UpdatePipeline.SelfMutate";
+"BEGIN UpdatePipeline" -> "UpdatePipeline.SelfMutate";
+"UpdatePipeline.SelfMutate" -> "END UpdatePipeline";
+"BEGIN Assets" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Assets" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Assets.FileAsset1";
+"UpdatePipeline.SelfMutate" -> "Assets.FileAsset1";
+"BEGIN Assets" -> "Assets.FileAsset1";
+"Assets.FileAsset1" -> "END Assets";
+"BEGIN dev" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END dev" [shape="cds", style="filled", fillcolor="#b7deff"];
+"UpdatePipeline.SelfMutate" -> "BEGIN dev";
+"BEGIN dev.asyncLambdaStack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END dev.asyncLambdaStack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"dev.asyncLambdaStack.Deploy";
+"dev.asyncLambdaStack.Prepare" -> "dev.asyncLambdaStack.Deploy";
+"dev.asyncLambdaStack.Prepare";
+"Build.Synth" -> "dev.asyncLambdaStack.Prepare";
+"BEGIN dev.asyncLambdaStack" -> "dev.asyncLambdaStack.Prepare";
+"dev.asyncLambdaStack.Deploy" -> "END dev.asyncLambdaStack";
+"BEGIN dev.ecsPatternsStack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END dev.ecsPatternsStack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"dev.ecsPatternsStack.Deploy";
+"dev.ecsPatternsStack.Prepare" -> "dev.ecsPatternsStack.Deploy";
+"dev.ecsPatternsStack.Prepare";
+"Build.Synth" -> "dev.ecsPatternsStack.Prepare";
+"Assets.FileAsset1" -> "dev.ecsPatternsStack.Prepare";
+"BEGIN dev.ecsPatternsStack" -> "dev.ecsPatternsStack.Prepare";
+"dev.ecsPatternsStack.Deploy" -> "END dev.ecsPatternsStack";
+"BEGIN dev.lambdaStack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END dev.lambdaStack" [shape="cds", style="filled", fillcolor="#b7deff"];
+"dev.lambdaStack.Deploy";
+"dev.lambdaStack.Prepare" -> "dev.lambdaStack.Deploy";
+"dev.lambdaStack.Prepare";
+"Build.Synth" -> "dev.lambdaStack.Prepare";
+"BEGIN dev.lambdaStack" -> "dev.lambdaStack.Prepare";
+"dev.lambdaStack.Deploy" -> "END dev.lambdaStack";
+"dev.approval";
+"END dev.asyncLambdaStack" -> "dev.approval";
+"END dev.ecsPatternsStack" -> "dev.approval";
+"END dev.lambdaStack" -> "dev.approval";
+"BEGIN dev" -> "BEGIN dev.asyncLambdaStack";
+"BEGIN dev" -> "BEGIN dev.ecsPatternsStack";
+"BEGIN dev" -> "BEGIN dev.lambdaStack";
+"dev.approval" -> "END dev";
+"BEGIN Source" [shape="cds", style="filled", fillcolor="#b7deff"];
+"END Source" [shape="cds", style="filled", fillcolor="#b7deff"];
+"Source.aws-6w8hnx/aws-codepipeline-ecs-lambda";
+"BEGIN Source" -> "Source.aws-6w8hnx/aws-codepipeline-ecs-lambda";
+"Source.aws-6w8hnx/aws-codepipeline-ecs-lambda" -> "END Source";
+}
