@@ -10,7 +10,7 @@ export class vpcStack extends cdk.Stack {
         super(scope, id, props);
         
       // 👇 assign a vpc to the class property
-    const vpc = new Vpc(this, 'vpc', {
+    this.vpc = new Vpc(this, 'vpc', {
         maxAzs: 3,
         natGateways: 1,
         enableDnsHostnames: true,
