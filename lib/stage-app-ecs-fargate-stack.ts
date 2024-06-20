@@ -11,11 +11,7 @@ export interface vpcStackProps extends cdk.StackProps {
 export class ecsFargateStack extends cdk.Stack {
     public readonly vpc:   IVpc;
     constructor(scope: Construct, id: string, props: vpcStackProps) {
-      super(scope, id, props);
-
-    this.vpc = new Vpc (this, "ecsVpc", {
-        natGateways: 1,
-    });
+        super(scope, id, props);
 
     const cluster = new Cluster(this, 'ecsCluster', {
         vpc: props.vpc,
