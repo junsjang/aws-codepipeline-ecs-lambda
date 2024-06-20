@@ -4,9 +4,13 @@ import { ApplicationLoadBalancedFargateService } from 'aws-cdk-lib/aws-ecs-patte
 import { IVpc, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 import { Cluster, ContainerImage } from 'aws-cdk-lib/aws-ecs';
 
+export interface vpcStackProps extends cdk.StackProps {
+    vpc: IVpc;
+}
+
 export class ecsFargateStack extends cdk.Stack {
     public readonly vpc:   IVpc;
-    constructor(scope: Construct, id: string, props?: cdk.StackProps) {
+    constructor(scope: Construct, id: string, props: vpcStackProps) {
       super(scope, id, props);
 
     this.vpc = new Vpc (this, "ecsVpc", {
@@ -14,7 +18,7 @@ export class ecsFargateStack extends cdk.Stack {
     });
 
     const cluster = new Cluster(this, 'ecsCluster', {
-        vpc: this.vpc,
+        vpc: props.vpc,
         containerInsights: true,
     });
     
