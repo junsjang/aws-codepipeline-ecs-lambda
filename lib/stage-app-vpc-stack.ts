@@ -1,10 +1,10 @@
 import * as cdk from 'aws-cdk-lib';
 import { Construct } from 'constructs';
-import { IVpc, IpAddresses, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
+import { IpAddresses, SubnetType, Vpc } from 'aws-cdk-lib/aws-ec2';
 
 export class vpcStack extends cdk.Stack {
 
-    public readonly vpc: IVpc;
+    public readonly vpc: Vpc;
     
     constructor(scope: Construct, id: string, props?: cdk.StackProps) {
         super(scope, id, props);
