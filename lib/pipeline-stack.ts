@@ -20,7 +20,7 @@ export class pipelineStack extends cdk.Stack {
       synth: new ShellStep('Synth', {
         input: CodePipelineSource.connection(`${githubOrg}/${githubRepo}`, `${githubBranch}`,{
           // You need to replace the below code connection arn:
-          connectionArn: `arn:aws:codestar-connections:ap-southeast-2:${props?.env?.account}:connection/0ce75950-a29b-4ee4-a9d3-b0bad3b2c0a6`
+          connectionArn: 'arn:aws:codestar-connections:ap-northeast-1:108331135934:connection/7ea71bd5-b69f-4fd7-a868-9fae0f7d9916'
         }),
         commands: [
           'npm ci',
@@ -37,9 +37,18 @@ export class pipelineStack extends cdk.Stack {
       ]}
     });
 
-    const devStage = pipeline.addStage(new pipelineAppStage(this, `${devEnv}`, {
-      env: { account: props?.env?.account, region: props?.env?.region}
+    const devStage = pipeline.addStage(new pipelineAppStage(this, 'dev', {
+      env: { account: '108331135934', region: 'ap-northeast-1' }
     }));
     devStage.addPost(new ManualApprovalStep('approval'));
+
+    const rcStage = pipeline.addStage(new pipelineAppStage(this, 'rc', {
+      env: { account: '509411574368', region: 'ap-northeast-1' }
+    }));
+    rcStage.addPost(new ManualApprovalStep('approval'));
+
+    const prodStage = pipeline.addStage(new pipelineAppStage(this, 'prod', {
+      env: { account: '108331135934', region: 'ap-northeast-2' }
+    }));
   }
 }
