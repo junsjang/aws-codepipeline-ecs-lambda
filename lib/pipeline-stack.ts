@@ -8,17 +8,12 @@ export class pipelineStack extends cdk.Stack {
   constructor(scope: Construct, id: string, props?: cdk.StackProps) {
     super(scope, id, props);
 
-    const githubOrg       = process.env.GITHUB_ORG       || "aws-6w8hnx";
-    const githubRepo      = process.env.GITHUB_REPO      || "aws-codepipeline-ecs-lambda";
-    const githubBranch    = process.env.GITHUB_BRANCH    || "main";
-    const devEnv          = process.env.DEV_ENV          || "dev";
-
     const pipeline = new CodePipeline(this, 'pipeline', {
       selfMutation:     true,
       crossAccountKeys: true,
       reuseCrossRegionSupportStacks: true,
       synth: new ShellStep('Synth', {
-        input: CodePipelineSource.connection(`${githubOrg}/${githubRepo}`, `${githubBranch}`,{
+        input: CodePipelineSource.connection('junsjang/aws-codepipeline-ecs-lambda', 'main',{
           // You need to replace the below code connection arn:
           connectionArn: 'arn:aws:codestar-connections:ap-northeast-1:108331135934:connection/7ea71bd5-b69f-4fd7-a868-9fae0f7d9916'
         }),
