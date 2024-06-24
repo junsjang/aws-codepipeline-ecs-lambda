@@ -27,8 +27,8 @@ export class pipelineStack extends cdk.Stack {
         rolePolicy: [
           new PolicyStatement({
             resources: [ '*' ],
-            actions: [ 'ec2:DescribeAvailabilityZones' ],
-          }),
+            actions: [ 'sts:AssumeRole' ],
+          })
       ]}
     });
 
